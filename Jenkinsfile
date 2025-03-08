@@ -8,7 +8,7 @@ parameters {
 }
 
 environment{
-    NAME = "piyush"
+    NAME = "madjava"
 }
 tools {
   maven 'mymaven'
