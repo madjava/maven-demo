@@ -25,9 +25,7 @@ stages{
             }
             sh 'mvn clean package -DskipTests=true'
            
-        }
-
-        
+        }  
 
     }
 
@@ -36,7 +34,7 @@ stages{
         parallel {
             stage('testA')
             {
-                agent { label 'DevServer' }
+                agent any
                 steps{
                     echo " This is test A"
                     sh "mvn test"
@@ -45,7 +43,7 @@ stages{
             }
             stage('testB')
             {
-                agent { label 'DevServer' }
+                agent any
                 steps{
                 echo "this is test B"
                 sh "mvn test"
@@ -65,9 +63,13 @@ stages{
 
     stage('deploy_dev')
     {
-        when { expression {params.select_environment == 'dev'}
-        beforeAgent true}
-        agent { label 'DevServer' }
+        when { 
+            expression {
+                params.select_environment == 'dev'
+            }
+            beforeAgent true
+        }
+        agent any
         steps
         {
             dir("/var/www/html")
@@ -85,7 +87,7 @@ stages{
     {
       when { expression {params.select_environment == 'prod'}
         beforeAgent true}
-        agent { label 'ProdServer' }
+        agent any
         steps
         {
              timeout(time:5, unit:'DAYS'){
